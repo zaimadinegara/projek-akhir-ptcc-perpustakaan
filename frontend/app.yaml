@@ -3,6 +3,32 @@ service: default
 instance_class: F1
 
 handlers:
+  - url: /
+    static_files: index.html
+    upload: index.html
+
+  - url: /(.*\.html)
+    mime_type: text/html
+    static_files: \1
+    upload: (.*\.html)
+    expiration: "1h"
+
+  - url: /(.*\.(bmp|gif|ico|jpeg|jpg|png))
+    static_files: \1
+    upload: (.*\.(bmp|gif|ico|jpeg|jpg|png))
+
+  - url: /(.*\.js)
+    mime_type: text/javascript
+    static_files: \1
+    upload: (.*\.js)
+
+    url: /(.*\.css)
+    mime_type: text/css
+    static_files: static/\1
+    upload: static/(.*\.css)
+
+/*
+handlers:
   # Route default ke login.html
   - url: /
     static_files: src/views/login.html
@@ -12,5 +38,5 @@ handlers:
   - url: /(.*\.html)
     static_files: src/views/\1
     upload: src/views/(.*\.html)
-
+*/
 default_expiration: "1h"
