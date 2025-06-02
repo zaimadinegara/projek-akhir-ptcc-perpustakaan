@@ -1,5 +1,5 @@
 runtime: python39 
-service: fe-alung-ta
+service: default
 instance_class: F1 
 
 handlers:
