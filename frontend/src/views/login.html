@@ -10,16 +10,70 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
     <link href="public/metronic/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="public/metronic/css/style.bundle.css" rel="stylesheet" type="text/css" />
-
-    <!-- Kustom CSS Dipisah -->
-    <link href="./login.css" rel="stylesheet" type="text/css" />
-    
-
-    <script>// Frame-busting
-    if (window.top != window.self) {
-        window.top.location.replace(window.self.location.href);
-    }
-    </script>
+    <style>
+        /* CSS Kustom untuk tampilan login/register */
+        body.app-blank {
+            background: linear-gradient(120deg, #e9effc 0%, #d3dff7 100%); /* Contoh gradasi lembut UPN */
+        }
+        .auth-aside-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: #dde5f6; /* Warna senada dengan UPN Library */
+        }
+        .auth-title {
+            font-size: 2.8rem; 
+            font-weight: 700; /* Lebih bold */
+            color: #3A358F; /* Warna ungu tua UPN */
+            margin-bottom: 30px !important;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .auth-illustration {
+            max-width: 80%;
+            max-height: 350px;
+            height: auto;
+            margin-top: 20px;
+        }
+        .auth-form-wrapper {
+            background-color: #FFFFFF;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0px 10px 35px rgba(0, 0, 0, 0.08);
+        }
+        .auth-form-wrapper .form-control.form-control-solid {
+            background-color: #f3f6f9; /* Warna input Metronic */
+            border-radius: 8px;
+        }
+        .auth-form-wrapper .btn-primary {
+            background-color: #5A5C9E; /* Warna ungu UPN */
+            border-color: #5A5C9E;
+            border-radius: 8px;
+            padding-top: 0.85rem;
+            padding-bottom: 0.85rem;
+            font-weight: 600;
+        }
+        .auth-form-wrapper .btn-primary:hover {
+            background-color: #4a4c8a;
+            border-color: #4a4c8a;
+        }
+        .auth-form-wrapper .link-primary {
+            color: #5A5C9E;
+            font-weight: 500;
+        }
+        .auth-form-wrapper .link-primary:hover {
+            color: #4a4c8a;
+        }
+        .auth-form-container { /* Wrapper untuk form di sisi kanan agar bisa di tengah */
+             width: 100%;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+        }
+    </style>
+    <script>// Frame-busting if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 </head>
 <body id="kt_body" class="app-blank">
     <div class="d-flex flex-column flex-root" id="kt_app_root">
@@ -118,7 +172,6 @@
         });
     });
     </script>
-
     <script src="public/metronic/plugins/global/plugins.bundle.js"></script> 
     <script src="public/metronic/js/scripts.bundle.js"></script> 
 </body>
