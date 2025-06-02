@@ -12,7 +12,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const fe_url = 'https://tcc-a01.uc.r.appspot.com';
+const fe_url = 'https://fe-alung-ta-dot-b-01-450713.uc.r.appspot.com/src/views/';
 
 export const index = (req, res) => {
   res.redirect(`${fe_url}admin/books/index.html`);

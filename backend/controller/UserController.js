@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 dotenv.config(); // Pastikan ini dipanggil agar .env termuat
 
-const fe_url = 'https://tcc-a01.uc.r.appspot.com';
+const fe_url = 'https://fe-alung-ta-dot-b-01-450713.uc.r.appspot.com/src/views';
 
 // Ambil konfigurasi dari .env
 const JWT_SECRET_KEY = process.env.JWT_SECRET;
