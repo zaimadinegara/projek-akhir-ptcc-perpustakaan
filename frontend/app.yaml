@@ -3,15 +3,14 @@ service: default
 instance_class: F1
 
 handlers:
+  # Route default ke login.html
   - url: /
     static_files: src/views/login.html
     upload: src/views/login.html
 
-  - url: /(.*)
+  # Untuk semua file HTML (books.html, register.html, dll)
+  - url: /(.*\.html)
     static_files: src/views/\1
-    upload: src/views/(.*)
-
-  - url: /assets
-    static_dir: src/assets
+    upload: src/views/(.*\.html)
 
 default_expiration: "1h"
