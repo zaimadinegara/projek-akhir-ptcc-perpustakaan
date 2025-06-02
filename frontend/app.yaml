@@ -1,14 +1,17 @@
-runtime: python39 
+runtime: python39
 service: default
-instance_class: F1 
+instance_class: F1
 
 handlers:
   - url: /
-    static_files: index.html
-    upload: index.html
+    static_files: src/views/login.html
+    upload: src/views/login.html
 
   - url: /(.*)
-    static_files: \1
-    upload: (.*)
+    static_files: src/views/\1
+    upload: src/views/(.*)
 
-default_expiration: "1h"  
+  - url: /assets
+    static_dir: src/assets
+
+default_expiration: "1h"
