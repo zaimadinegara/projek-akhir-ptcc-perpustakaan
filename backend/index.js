@@ -33,7 +33,7 @@ app.use(cookieParser());
 // ===== MODIFIKASI BAGIAN CORS DI SINI =====
 app.use(cors({
   origin: [
-    "https://fe-alung-ta-dot-b-01-450713.uc.r.appspot.com", // Origin untuk frontend deployed
+    "https://tcc-a01.uc.r.appspot.com", // Origin untuk frontend deployed
     "http://127.0.0.1:5500", // Tambahkan origin Live Server lokalmu (port default Live Server)
     "http://localhost:5500"  // Alternatif untuk Live Server lokalmu
     // Kamu bisa tambahkan port lain jika Live Server-mu berjalan di port berbeda
