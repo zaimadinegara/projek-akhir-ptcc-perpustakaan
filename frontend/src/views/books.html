@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="light">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="Daftar Buku Perpustakaan" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Daftar Buku - Perpustakaan UPNYK</title>
+    <base href="../../">
+    <link rel="shortcut icon" href="public/common/img/logoupn.png" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+    <link rel="stylesheet" href="public/edubost/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="public/edubost/css/fontawesome.css" />
+    <link rel="stylesheet" href="public/edubost/css/animate.css" />
+    <link rel="stylesheet" href="public/edubost/css/swiper.min.css" />
+    <link rel="stylesheet" href="public/edubost/css/odometer.css" />
+    <link rel="stylesheet" href="public/edubost/css/magnific-popup.css" />
+    <link rel="stylesheet" href="public/edubost/css/recoleta-font.css" />
+    <link rel="stylesheet" href="public/edubost/css/nice-select.css" />
+    <link rel="stylesheet" href="public/edubost/css/main.css" /> 
+    <link rel="stylesheet" href="public/common/css/style.css" /> 
+
+    <style>
+        /* CSS Kustom untuk books.html */
+        body, html { 
+            overflow-y: auto !important; 
+            height: auto !important; 
+            background-color: #FFFFFF !important; /* Latar body menjadi putih */
+        }
+        .body_wrap { 
+            overflow: visible !important; 
+            height: auto !important;
+        }
+        .xb-backtotop {
+            z-index: 1030; /* Pastikan lebih tinggi dari elemen lain, tapi di bawah modal jika ada */
+            background-color: #5A5C9E; 
+            color: #fff;
+            width: 45px; 
+            height: 45px; 
+            text-align: center;
+            line-height: 45px; 
+            border-radius: 5px;
+            font-size: 20px; 
+        }
+        .xb-backtotop:hover {
+            background-color: #4a4c8a;
+            color: #fff;
+        }
+
+        .book-card-item {
+            border: 1px solid #e0e0e0; margin-bottom: 30px; padding: 15px;
+            border-radius: 8px; background-color: #fff; color: #333;
+            display: flex; flex-direction: column; height: 100%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform .2s ease-out, box-shadow .2s ease-out;
+        }
+        .book-card-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        .book-card-item img {
+            width: 100%; height: 250px;
+            object-fit: contain; margin-bottom: 15px; border: 1px solid #eee;
+            border-radius: 4px;
+        }
+        .book-card-item .book-content { flex-grow: 1; }
+        .book-card-item h3 { 
+            font-size: 1.25rem; 
+            margin-bottom: 10px; 
+            line-height: 1.3;   
+        }
+        .book-card-item h3 a { color: #3A358F; text-decoration: none; font-weight: 600;}
+        .book-card-item h3 a:hover { color: #5A5C9E; text-decoration: underline; }
+        .book-card-item p { font-size: 0.85rem; margin-bottom: 4px; color: #555; }
+        .book-card-item p strong { color: #333; }
+        .btn-pinjam { 
+            margin-top: auto; 
+            background-color: #5A5C9E; 
+            border-color: #5A5C9E;
+            color: #fff;
+            font-weight: 500;
+        }
+        .btn-pinjam:hover {
+            background-color: #4a4c8a;
+            border-color: #4a4c8a;
+        }
+        .sidebar_widget_title { color: #3A358F; border-bottom: 2px solid #dde5f6; padding-bottom: 10px; margin-bottom:20px; }
+        
+        .post_category_list {
+            padding-left: 0; 
+            list-style-type: none; 
+        }
+        .post_category_list li {
+            margin-bottom: 8px; 
+        }
+        .post_category_list a.genre-link-sidebar { 
+            color: #555; 
+            cursor: pointer; 
+            text-decoration: none; 
+            display: flex; 
+            align-items: center; 
+            padding: 8px 5px; 
+            border-radius: 4px; 
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .post_category_list a.genre-link-sidebar:hover { 
+            background-color: #e9effc; 
+            color: #3A358F; 
+        }
+        .post_category_list a.genre-link-sidebar:hover span { 
+            color: #3A358F; 
+            font-weight: 500; 
+        }
+        .post_category_list a.genre-link-sidebar i { 
+            margin-right: 10px; 
+            color: #5A5C9E; 
+            font-size: 0.9em; 
+            flex-shrink: 0; 
+        }
+        .post_category_list a.genre-link-sidebar:hover i {
+            color: #3A358F;
+        }
+
+        .header-right ul { list-style: none; padding: 0; margin: 0; }
+        .header-right ul li { display: inline-block; margin-left: 15px; }
+        #loggedInUserName { color: #3A358F; font-weight: 500; }
+        .header-logo img.main-logo {
+            max-height: 50px; 
+            width: auto;
+        }
+        .breadcrumb {
+            position: relative; 
+            background-size: cover;
+            background-position: center center;
+            padding: 80px 0; 
+        }
+        .breadcrumb::before { 
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(40, 40, 80, 0.5); 
+        }
+        .breadcrumb__content {
+            position: relative; 
+            z-index: 1;
+        }
+        .breadcrumb__title { color: #fff; font-weight: bold; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+        .breadcrumb__desc { color: #f0f0f0; text-shadow: 1px 1px 2px rgba(0,0,0,0.4); }
+
+        .footer { 
+            background-color: #4a3d6f; 
+            color: #FFFFFF; 
+            padding: 15px 0; 
+            border-top: 3px solid #3A2D6F; 
+        }
+        .footer p, .footer a { 
+            color: #E0E0E0; 
+        }
+        .footer a:hover {
+            color: #FFFFFF;
+            text-decoration: underline;
+        }
+        .blog_section { 
+             background-color: transparent !important; 
+        }
+    </style>
+</head>
+<body>
+    <div class="xb-backtotop"><a href="#" class="scroll"><i class="far fa-arrow-up"></i></a></div>
+    <div id="preloader"><div id="loader" class="loader"><div class="loader-container"><div class="loader-icon"><img src="public/edubost/img/logo/preloader.png" alt="preloader"/></div></div></div></div>
+
+    <div class="body_wrap">
+        <header id="xb-header-area" class="header-area is-sticky">
+            <div class="xb-header">
+                <div class="container">
+                    <div class="header__wrap ul_li_between">
+                        <div class="header-logo">
+                            <a href="/frontend/src/views/books.html"> 
+                                <img class="main-logo" src="public/common/img/logoupn.png" alt="Logo Perpustakaan UPNYK"/>
+                            </a>
+                        </div>
+                        <div class="main-menu__wrap ul_li navbar navbar-expand-lg">
+                            <nav class="main-menu collapse navbar-collapse">
+                                <ul>
+                                    <li class="active"><a href="/frontend/src/views/books.html">Daftar Buku</a></li>
+                                    <li><a href="/frontend/src/views/my_borrows.html">Peminjaman Saya</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="header-right ul_li">
+                            <span id="loggedInUserName" style="margin-right: 15px;"></span>
+                            <button id="logoutButton" class="btn btn-danger btn-sm">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="breadcrumb bg_img ul_li" data-background="public/common/img/rektorat.jpg">
+                <div class="container">
+                    <div class="breadcrumb__content text-center">
+                        <h2 class="breadcrumb__title">Daftar Buku Perpustakaan UPNYK</h2>
+                        <p class="breadcrumb__desc">Temukan dan pinjam buku favoritmu dari koleksi kami</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="blog_section pt-120 pb-120">
+                <div class="container">
+                    <div class="row mt-none-30">
+                        <div class="col-lg-8 mt-30">
+                            <div id="book-list-container" class="row">
+                                <p class="text-center text-muted col-12">Memuat daftar buku...</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mt-30">
+                            <aside class="sidebar ps-xl-5">
+                                <div class="search_form mb-40">
+                                    <h3 class="sidebar_widget_title">Cari Buku</h3>
+                                    <form class="form-group" id="searchBookForm" autocomplete="off">
+                                        <input class="form-control" type="search" name="search_query" placeholder="Judul, Penulis..." />
+                                        <button type="submit"><img src="public/edubost/img/icon/icon_search.svg" alt="Search Icon" /></button>
+                                    </form>
+                                </div>
+                                <div class="post_category_wrap">
+                                    <h3 class="sidebar_widget_title">Genre Buku</h3>
+                                    <ul class="post_category_list unordered_list_block" id="genre-list-sidebar">
+                                        <li><span class="text-muted">Memuat genre...</span></li>
+                                    </ul>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer pos-rel pt-20"> 
+            <div class="footer-bottom pb-25 pt-25">
+                <div class="copyright text-center">
+                    <p>Copyright © 2025 <a href="#">Perpustakaan UPN "Veteran" Yogyakarta</a>. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log('[DEBUG] books.html: DOMContentLoaded, skrip Mulai Berjalan.');
+
+        const beUrl = "http://localhost:3000";
+        let token = localStorage.getItem('accessToken');
+        
+        const bookListContainer = document.getElementById("book-list-container");
+        const genreListSidebar = document.getElementById("genre-list-sidebar");
+        const searchBookForm = document.getElementById("searchBookForm");
+        const logoutButton = document.getElementById('logoutButton');
+        const loggedInUserNameSpan = document.getElementById('loggedInUserName');
+        
+        if (!bookListContainer) console.error('[DEBUG ERROR] books.html: Element #book-list-container tidak ditemukan!');
+        if (!genreListSidebar) console.error('[DEBUG ERROR] books.html: Element #genre-list-sidebar tidak ditemukan!');
+        if (!searchBookForm) console.error('[DEBUG ERROR] books.html: Element #searchBookForm tidak ditemukan!');
+        if (!logoutButton) console.error('[DEBUG ERROR] books.html: Element #logoutButton tidak ditemukan!');
+        if (!loggedInUserNameSpan) console.error('[DEBUG ERROR] books.html: Element #loggedInUserName tidak ditemukan!');
+        
+        const searchInput = searchBookForm ? searchBookForm.querySelector('input[name="search_query"]') : null;
+        if (searchBookForm && !searchInput) console.error('[DEBUG ERROR] books.html: Input search_query tidak ditemukan di dalam #searchBookForm!');
+
+        function handleUnauthorized() {
+            localStorage.removeItem('accessToken');
+            token = null; 
+            alert('Sesi Anda tidak valid atau telah berakhir. Silakan login kembali.');
+            window.location.href = '/frontend/src/views/login.html';
+        }
+
+        if (!token) {
+            console.log('[DEBUG] books.html: Token tidak ditemukan saat load, mengarahkan ke login.');
+            handleUnauthorized();
+            return; 
+        }
+
+        if(loggedInUserNameSpan) { 
+            fetch(`${beUrl}/api/get-logged-in-user`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 401 || response.status === 403) handleUnauthorized();
+                    throw new Error(`Gagal mengambil info user: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(userData => {
+                if (userData && userData.name) {
+                    loggedInUserNameSpan.textContent = `Halo, ${userData.name}!`;
+                }
+            })
+            .catch(err => {
+                console.error('[DEBUG] books.html: Gagal mengambil info user:', err.message);
+            });
+        }
+
+        if(logoutButton) { 
+            logoutButton.addEventListener('click', function() {
+                localStorage.removeItem('accessToken');
+                alert('Anda berhasil logout.');
+                window.location.href = '/frontend/src/views/login.html'; 
+            });
+        }
+
+        function renderBooks(bookList) {
+            console.log('[DEBUG] books.html: renderBooks dipanggil dengan data:', JSON.parse(JSON.stringify(bookList || [])));
+            if (!bookListContainer) return;
+            if (!Array.isArray(bookList) || bookList.length === 0) {
+                bookListContainer.innerHTML = `<div class="col-12 text-center text-muted mt-5"><p>Belum ada buku yang tersedia atau sesuai filter/pencarian.</p></div>`;
+                return;
+            }
+            let bookHTML = ''; 
+            bookList.forEach(book => {
+                const coverImage = book.cover_image_url || 'public/common/img/placeholder_book.png';
+                const bookTitle = book.title || 'Tanpa Judul';
+                bookHTML += `
+                    <div class="col-lg-6 col-md-12 mb-4"> 
+                        <div class="book-card-item">
+                            <img src="${coverImage}" alt="${bookTitle}">
+                            <div class="book-content">
+                                <h3><a href="book-detail.html?id=${book.id}" title="${bookTitle}">${bookTitle}</a></h3>
+                                <p><strong>Penulis:</strong> ${book.author || '-'}</p>
+                                <p><strong>ISBN:</strong> ${book.isbn || '-'}</p>
+                                <p><strong>Tahun:</strong> ${book.published_year || '-'}</p>
+                                <p><strong>Total:</strong> ${book.quantity_total !== undefined ? book.quantity_total : '-'}, <strong>Tersedia:</strong> ${book.quantity_available !== undefined ? book.quantity_available : '-'}</p>
+                                <p><strong>Genre:</strong> 
+                                    ${book.genres && book.genres.length > 0 ? 
+                                        book.genres.map(genre => `<a href="#" class="genre-link-in-card" data-genre-id="${genre.id}">#${genre.name}</a>`).join(', ') 
+                                        : '<span class="text-muted">Tanpa Genre</span>'}
+                                </p>
+                            </div>
+                            ${book.quantity_available > 0 ? 
+                                `<button class="btn btn-primary btn-sm btn-pinjam" data-book-id="${book.id}" data-book-title="${bookTitle}">Pinjam</button>` 
+                                : '<span class="text-danger mt-2 d-block">Stok Habis</span>'}
+                        </div>
+                    </div>
+                `;
+            });
+            bookListContainer.innerHTML = bookHTML;
+
+            document.querySelectorAll('.btn-pinjam').forEach(button => {
+                button.addEventListener('click', function() { pinjamBuku(this.dataset.bookId, this.dataset.bookTitle); });
+            });
+            document.querySelectorAll('.genre-link-in-card').forEach(link => {
+                link.addEventListener('click', function(e) { e.preventDefault(); filterByGenre(this.dataset.genreId); });
+            });
+        }
+        
+        async function pinjamBuku(bookId, bookTitle) {
+            token = localStorage.getItem('accessToken'); 
+            if (!token) { handleUnauthorized(); return; }
+            
+            const dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 7); 
+
+            if (!confirm(`Anda akan meminjam buku "${bookTitle}" sampai tanggal ${dueDate.toLocaleDateString('id-ID')}?`)) return;
+
+            try {
+                const response = await fetch(`${beUrl}/api/borrows`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ book_id: parseInt(bookId), due_date: dueDate.toISOString() })
+                });
+                const result = await response.json();
+                if (response.ok && result.status === "Success" ) {
+                    alert(`Buku "${bookTitle}" berhasil dipinjam!`);
+                    fetchAndRenderBooks(getCurrentFilterUrl()); 
+                } else if (response.status === 401 || response.status === 403) {
+                    handleUnauthorized();
+                } else {
+                    alert(result.message || 'Gagal meminjam buku.');
+                }
+            } catch (error) {
+                console.error('Error borrowing book:', error);
+                alert('Terjadi kesalahan saat mencoba meminjam buku.');
+            }
+        }
+
+        function fetchAndRenderBooks(url = `${beUrl}/api/books`) {
+            token = localStorage.getItem('accessToken'); 
+            if (!token) { handleUnauthorized(); return; }
+
+            console.log('[DEBUG] books.html: fetchAndRenderBooks dipanggil dengan URL:', url);
+            fetch(url, { headers: { 'Authorization': `Bearer ${token}` } })
+            .then(response => {
+                console.log('[DEBUG] books.html: Status respons fetch:', response.status, response.statusText, 'dari URL:', url);
+                if (response.status === 401 || response.status === 403) {
+                    handleUnauthorized();
+                    return Promise.reject(new Error('Unauthorized or Forbidden')); 
+                }
+                if (!response.ok) {
+                    return response.json().catch(() => ({ message: `Error ${response.status}: ${response.statusText}` }))
+                        .then(errBody => {
+                            const errorMessage = errBody?.message || `Gagal mengambil data (Status: ${response.status})`;
+                            throw new Error(errorMessage);
+                        });
+                }
+                return response.json();
+            })
+            .then(bookList => {
+                console.log('[DEBUG] books.html: Data buku diterima dari API untuk URL', url, ':', JSON.parse(JSON.stringify(bookList || []))); 
+                renderBooks(bookList); 
+            })
+            .catch(error => {
+                console.error("[DEBUG] books.html: Error di fetchAndRenderBooks:", error.message);
+                if (bookListContainer && error.message !== 'Unauthorized or Forbidden') { 
+                     bookListContainer.innerHTML = `<div class="col-12 text-danger text-center"><p>Gagal memuat daftar buku: ${error.message}</p></div>`;
+                }
+            });
+        }
+        
+        function filterByGenre(genreId) {
+            console.log('[DEBUG] books.html: filterByGenre dipanggil dengan genreId:', genreId);
+            if (!genreId) { console.warn('[DEBUG] books.html: filterByGenre - genreId tidak valid.'); return; }
+            const urlParams = new URLSearchParams(); 
+            urlParams.set("genreId", genreId);
+            window.history.pushState({genreId: genreId}, "", `${location.pathname}?${urlParams}`);
+            fetchAndRenderBooks(`${beUrl}/api/books?genreId=${genreId}`);
+        }
+
+        if (genreListSidebar) {
+            token = localStorage.getItem('accessToken');
+            fetch(`${beUrl}/api/genres`, { headers: { 'Authorization': `Bearer ${token}` } })
+            .then(response => {
+                if (response.status === 401 || response.status === 403) {
+                    console.warn("Sesi tidak valid saat mengambil genre untuk sidebar.");
+                    return Promise.reject(new Error('Unauthorized')); 
+                }
+                if (!response.ok) throw new Error("Failed to fetch genres for sidebar");
+                return response.json();
+            })
+            .then(genres => {
+                console.log('[DEBUG] books.html: Data genre diterima untuk sidebar:', genres);
+                if (!Array.isArray(genres) || genres.length === 0) {
+                    genreListSidebar.innerHTML = `<li><span class="text-muted">Tidak ada genre.</span></li>`; return;
+                }
+                genreListSidebar.innerHTML = genres.map(genre => `
+                    <li><a href="#" class="genre-link-sidebar" data-genre-id="${genre.id}"><i class="far fa-folder-open"></i> <span>${genre.name}</span></a></li>
+                `).join("");
+
+                document.querySelectorAll('.genre-link-sidebar').forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        filterByGenre(this.dataset.genreId);
+                    });
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching genres for sidebar:", error.message);
+                if (genreListSidebar && error.message !== 'Unauthorized') {
+                    genreListSidebar.innerHTML = `<li><span class="text-danger">Gagal memuat genre.</span></li>`;
+                }
+            });
+        }
+
+        if (searchBookForm && searchInput) {
+            searchBookForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+                const searchValue = searchInput.value.trim();
+                console.log('[DEBUG] books.html: Search form submitted, query:', searchValue);
+                const urlParams = new URLSearchParams();
+                if (searchValue) urlParams.set("search", searchValue);
+                window.history.pushState({search: searchValue}, "", `${location.pathname}?${urlParams}`);
+                fetchAndRenderBooks(`${beUrl}/api/books?search=${encodeURIComponent(searchValue)}`);
+            });
+        }
+
+        function getCurrentFilterUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const genreParam = urlParams.get("genreId");
+            const searchParam = urlParams.get("search");
+            console.log('[DEBUG] books.html: getCurrentFilterUrl - genreParam:', genreParam, 'searchParam:', searchParam);
+
+            if (genreParam) return `${beUrl}/api/books?genreId=${genreParam}`;
+            if (searchParam) return `${beUrl}/api/books?search=${encodeURIComponent(searchParam)}`;
+            return `${beUrl}/api/books`;
+        }
+        
+        if (token) { 
+            console.log('[DEBUG] books.html: Inisialisasi halaman, memanggil fetchAndRenderBooks.');
+            fetchAndRenderBooks(getCurrentFilterUrl());
+        }
+    });
+    </script>
+        <script src="public/edubost/js/jquery-3.7.1.min.js"></script>
+    <script src="public/edubost/js/bootstrap.bundle.min.js"></script>
+                                                <script src="public/edubost/js/main.js"></script>   </body>
+</html>

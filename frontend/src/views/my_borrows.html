@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="light">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="Buku Pinjaman Saya - Perpustakaan UPNYK" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Peminjaman Saya - Perpustakaan UPNYK</title>
+    <base href="../../">
+    <link rel="shortcut icon" href="public/common/img/logoupn.png" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+    <link href="public/metronic/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="public/metronic/css/style.bundle.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="public/edubost/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="public/edubost/css/fontawesome.css" />
+    <link rel="stylesheet" href="public/edubost/css/animate.css" /> 
+    <link rel="stylesheet" href="public/edubost/css/swiper.min.css" /> 
+    <link rel="stylesheet" href="public/edubost/css/magnific-popup.css" />
+    <link rel="stylesheet" href="public/edubost/css/main.css" /> 
+    <link rel="stylesheet" href="public/common/css/style.css" /> 
+
+    <style>
+        body, html { 
+            overflow-y: auto !important; 
+            height: auto !important; 
+            background-color: #FFFFFF !important; 
+        }
+        .body_wrap { 
+            overflow: visible !important; 
+            height: auto !important;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main.content-section {
+            flex-grow: 1; /* Konten utama mengisi ruang yang tersedia */
+        }
+        .header-logo img.main-logo { max-height: 50px; width: auto; }
+        #loggedInUserName { color: #3A358F; font-weight: 500; margin-right: 15px; }
+        .breadcrumb { position: relative; background-size: cover; background-position: center center; padding: 60px 0; }
+        .breadcrumb::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(40, 40, 80, 0.5); }
+        .breadcrumb__content { position: relative; z-index: 1; }
+        .breadcrumb__title { color: #fff; font-weight: bold; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+        
+        .borrowed-book-card-item {
+            border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 8px;
+            background-color: #f9f9f9; display: flex; align-items: flex-start; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .borrowed-book-card-item img {
+            width: 100px; height: 140px; object-fit: cover; margin-right: 20px; 
+            border-radius: 4px; flex-shrink: 0; 
+        }
+        .borrowed-book-info { flex-grow: 1; }
+        .borrowed-book-info h5 { margin-top:0; margin-bottom: 8px; color: #3A358F; font-size: 1.15rem; font-weight: 600;}
+        .borrowed-book-info p { font-size: 0.9rem; margin-bottom: 5px; color: #555; }
+        .btn-return { 
+            background-color: #28a745; border-color: #28a745; color:white; 
+            font-weight: 500; padding: 0.5rem 1rem; align-self: center; margin-left: 15px;
+        }
+        .btn-return:hover { background-color: #218838; border-color: #1e7e34; }
+        
+        .footer { background-color: #4a3d6f; color: #FFFFFF; padding: 15px 0; border-top: 3px solid #3A2D6F;}
+        .footer a { color: #f0f0f0; }
+        .footer a:hover { color: #ffffff; text-decoration: underline; }
+        .content-section { 
+            padding-top: 40px; 
+            padding-bottom: 40px; 
+        }
+        .no-borrows-message {
+            padding: 40px;
+            background-color: #f8f9fa;
+            border: 1px dashed #ced4da;
+            border-radius: 8px;
+        }
+        .xb-backtotop {
+            position: fixed; right: 30px; bottom: 30px;
+            width: 45px; height: 45px; 
+            background-color: #5A5C9E; color: #fff;
+            text-align: center; line-height: 45px; 
+            border-radius: 5px; z-index: 1030; 
+            opacity: 0; visibility: hidden;
+            transition: all 0.3s ease-in-out;
+            font-size: 20px; 
+        }
+        .xb-backtotop.active { opacity: 1; visibility: visible; }
+        .xb-backtotop:hover { background-color: #4a4c8a; color: #fff; }
+    </style>
+    <script>// Frame-busting if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
+</head>
+<body>
+    <div id="preloader"><div id="loader" class="loader"><div class="loader-container"><div class="loader-icon"><img src="public/edubost/img/logo/preloader.png" alt="preloader"/></div></div></div></div>
+    <div class="body_wrap">
+        <header id="xb-header-area" class="header-area is-sticky">
+            <div class="xb-header">
+                <div class="container">
+                    <div class="header__wrap ul_li_between">
+                        <div class="header-logo">
+                            <a href="/frontend/src/views/books.html"> 
+                                <img class="main-logo" src="public/common/img/logoupn.png" alt="Logo Perpustakaan UPNYK"/>
+                            </a>
+                        </div>
+                        <div class="main-menu__wrap ul_li navbar navbar-expand-lg">
+                            <nav class="main-menu collapse navbar-collapse">
+                                <ul>
+                                    <li><a href="/frontend/src/views/books.html">Daftar Buku</a></li>
+                                    <li class="active"><a href="/frontend/src/views/my_borrows.html">Peminjaman Saya</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="header-right ul_li">
+                            <span id="loggedInUserName" style="margin-right: 15px;"></span>
+                            <button id="logoutButton" class="btn btn-danger btn-sm">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="content-section">
+            <section class="breadcrumb bg_img ul_li" data-background="public/common/img/rektorat.jpg">
+                <div class="container">
+                    <div class="breadcrumb__content text-center">
+                        <h2 class="breadcrumb__title">Buku Pinjaman Saya</h2>
+                        <p class="breadcrumb__desc">Berikut adalah daftar buku yang sedang Anda pinjam.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="pt-80 pb-80">
+                <div class="container">
+                    <div id="borrowed-books-list-container" class="row"> 
+                        <p class="text-center text-muted col-12">Memuat data peminjaman...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer pos-rel pt-20"> 
+            <div class="footer-bottom pb-25 pt-25">
+                <div class="copyright text-center">
+                    <p>Copyright © 2025 <a href="#">Perpustakaan UPN "Veteran" Yogyakarta</a>. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div> 
+    
+    <div class="xb-backtotop"><a href="#" class="scroll"><i class="far fa-arrow-up"></i></a></div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log('[DEBUG] my_borrows.html: DOMContentLoaded');
+        const beUrl = "http://localhost:3000";
+        let token = localStorage.getItem('accessToken');
+        
+        const borrowedBooksContainer = document.getElementById("borrowed-books-list-container");
+        const logoutButton = document.getElementById('logoutButton');
+        const loggedInUserNameSpan = document.getElementById('loggedInUserName');
+
+        function handleUnauthorized(contextMessage = "Aksi ini") {
+            localStorage.removeItem('accessToken');
+            token = null; // Penting untuk update variabel token lokal
+            alert(`Sesi Anda tidak valid atau telah berakhir untuk ${contextMessage}. Silakan login kembali.`);
+            window.location.href = '/frontend/src/views/login.html';
+        }
+
+        if (!token) {
+            console.log('[DEBUG] my_borrows.html: Token tidak ditemukan saat load, mengarahkan ke login.');
+            handleUnauthorized("membuka halaman Peminjaman Saya");
+            return; 
+        }
+
+        async function initializePage() {
+            if (loggedInUserNameSpan) {
+                try {
+                    const response = await fetch(`${beUrl}/api/get-logged-in-user`, { headers: { 'Authorization': `Bearer ${token}` }});
+                    if (!response.ok) {
+                        if (response.status === 401 || response.status === 403) {
+                            handleUnauthorized("mengambil info user");
+                            return; 
+                        }
+                        throw new Error(`Gagal mengambil info user: Status ${response.status}`);
+                    }
+                    const userData = await response.json();
+                    if (userData && userData.name) {
+                        loggedInUserNameSpan.textContent = `Halo, ${userData.name}!`;
+                    }
+                } catch (err) {
+                    console.error('[DEBUG] my_borrows.html: Gagal ambil info user:', err.message);
+                    // Jika error bukan karena otorisasi (yang sudah redirect), tampilkan pesan di kontainer utama
+                    if (borrowedBooksContainer && !(err.message.includes('Unauthorized') || err.message.includes('Forbidden'))) {
+                         borrowedBooksContainer.innerHTML = `<div class="col-12"><div class="no-borrows-message text-center text-danger mt-5"><p>Gagal memuat info pengguna. Silakan coba refresh atau login ulang.</p></div></div>`;
+                         return; 
+                    }
+                }
+            }
+            
+            // Panggil fetchBorrowedBooks hanya jika token masih valid (setelah fetch info user)
+            if (localStorage.getItem('accessToken')) { 
+                 fetchBorrowedBooks();
+            } else {
+                 console.log('[DEBUG] my_borrows.html: Token sudah tidak ada setelah cek info user, tidak fetch buku pinjaman.');
+            }
+        }
+
+        if (logoutButton) {
+            logoutButton.addEventListener('click', function() {
+                // Idealnya panggil API logout backend di sini jika ada
+                // fetch(`${beUrl}/api/logout`, { method: 'GET', headers: {'Authorization': `Bearer ${token}`} })
+                // .finally(() => {
+                    localStorage.removeItem('accessToken');
+                    alert('Anda berhasil logout.');
+                    window.location.href = '/frontend/src/views/login.html';
+                // });
+            });
+        }
+
+        function renderBorrowedBooks(borrowList) {
+            console.log('[DEBUG] my_borrows.html: renderBorrowedBooks dipanggil dengan data:', JSON.parse(JSON.stringify(borrowList || [])));
+            if (!borrowedBooksContainer) { console.error("[DEBUG ERROR] my_borrows.html: #borrowed-books-list-container tidak ditemukan!"); return; }
+            
+            if (!Array.isArray(borrowList) || borrowList.length === 0) {
+                borrowedBooksContainer.innerHTML = `<div class="col-12"><div class="no-borrows-message text-center text-muted mt-5"><p>Anda tidak sedang meminjam buku.</p></div></div>`;
+                return;
+            }
+            let borrowedHTML = '';
+            borrowList.forEach(borrow => {
+                const book = borrow.Book; 
+                if (!book) { 
+                    console.warn("[DEBUG] my_borrows.html: Data buku tidak ditemukan untuk record peminjaman ID:", borrow.id, "Isi borrow:", borrow);
+                    return; 
+                }
+
+                const coverImage = book.cover_image_url || 'public/common/img/placeholder_book.png';
+                const bookTitle = book.title || 'Tanpa Judul';
+                const borrowDate = borrow.borrow_date ? new Date(borrow.borrow_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-';
+                const dueDate = borrow.due_date ? new Date(borrow.due_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-';
+                
+                borrowedHTML += `
+                    <div class="col-md-12"> 
+                        <div class="borrowed-book-card-item">
+                            <img src="${coverImage}" alt="${bookTitle}">
+                            <div class="book-info">
+                                <h5>${bookTitle}</h5>
+                                <p><strong>Penulis:</strong> ${book.author || '-'}</p>
+                                <p><strong>Tanggal Pinjam:</strong> ${borrowDate}</p>
+                                <p><strong>Jatuh Tempo:</strong> ${dueDate}</p>
+                            </div>
+                            <button class="btn btn-success btn-sm btn-return ms-auto align-self-center" data-borrow-id="${borrow.id}" data-book-title="${bookTitle}">Kembalikan Buku</button>
+                        </div>
+                    </div>
+                `;
+            });
+            borrowedBooksContainer.innerHTML = borrowedHTML;
+
+            document.querySelectorAll('.btn-return').forEach(button => {
+                button.addEventListener('click', function() {
+                    handleReturnBook(this.dataset.borrowId, this.dataset.bookTitle);
+                });
+            });
+        }
+        
+        async function handleReturnBook(borrowId, bookTitle) {
+            token = localStorage.getItem('accessToken');
+            if (!token) { handleUnauthorized("mengembalikan buku"); return; }
+
+            if (!confirm(`Anda yakin ingin mengembalikan buku "${bookTitle}"?`)) return;
+
+            try {
+                const response = await fetch(`${beUrl}/api/borrows/${borrowId}/return`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const result = await response.json(); // Selalu coba parse JSON
+                if (response.ok && result.status === "Success") {
+                    alert(`Buku "${bookTitle}" berhasil dikembalikan!`);
+                    fetchBorrowedBooks(); 
+                } else if (response.status === 401 || response.status === 403) {
+                    handleUnauthorized("mengembalikan buku");
+                } else {
+                    alert(result.message || `Gagal mengembalikan buku (Status: ${response.status})`);
+                }
+            } catch (error) {
+                console.error('Error returning book:', error);
+                alert('Terjadi kesalahan saat mencoba mengembalikan buku.');
+            }
+        }
+
+        function fetchBorrowedBooks() {
+            token = localStorage.getItem('accessToken'); 
+            if (!token) { 
+                console.log('[DEBUG] my_borrows.html: Token tidak ada di fetchBorrowedBooks.');
+                // Tidak perlu redirect lagi di sini karena initializePage sudah menangani jika token awal tidak ada
+                // atau jika get-logged-in-user gagal karena otorisasi.
+                return; 
+            }
+
+            console.log('[DEBUG] my_borrows.html: fetchBorrowedBooks dipanggil untuk URL:', `${beUrl}/api/borrows/my`);
+            fetch(`${beUrl}/api/borrows/my`, { 
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            .then(response => {
+                console.log('[DEBUG] my_borrows.html: Status respons fetch borrowed books:', response.status, response.statusText);
+                if (response.status === 401 || response.status === 403) {
+                    handleUnauthorized("melihat peminjaman");
+                    return Promise.reject(new Error('Unauthorized or Forbidden'));
+                }
+                if (!response.ok) {
+                    return response.json().catch(() => ({ message: `Error ${response.status}: ${response.statusText}` }))
+                        .then(errBody => {
+                            const errorMessage = errBody?.message || `Gagal mengambil data peminjaman (Status: ${response.status})`;
+                            throw new Error(errorMessage); 
+                        });
+                }
+                return response.json();
+            })
+            .then(borrowList => {
+                console.log('[DEBUG] my_borrows.html: Data peminjaman diterima dari API:', borrowList); // Log data mentah
+                renderBorrowedBooks(borrowList);
+            })
+            .catch(error => {
+                console.error("[DEBUG] my_borrows.html: Error fetching borrowed books:", error.message);
+                if (borrowedBooksContainer && error.message !== 'Unauthorized or Forbidden') {
+                     borrowedBooksContainer.innerHTML = `<div class="col-12"><div class="no-borrows-message text-center text-danger mt-5"><p>Gagal memuat data peminjaman: ${error.message}</p></div></div>`;
+                }
+            });
+        }
+        
+        // Panggil fungsi inisialisasi halaman
+        initializePage();
+        
+    });
+    </script>
+        <script src="public/edubost/js/jquery-3.7.1.min.js"></script>
+    <script src="public/edubost/js/bootstrap.bundle.min.js"></script>
+        <script src="public/edubost/js/swiper.min.js"></script> 
+    <script src="public/edubost/js/wow.min.js"></script>    
+    <script src="public/edubost/js/appear.js"></script> 
+        <script src="public/edubost/js/jquery.magnific-popup.min.js"></script>
+    <script src="public/edubost/js/main.js"></script> </body>
+</html>  
